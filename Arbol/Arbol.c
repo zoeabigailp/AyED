@@ -8,14 +8,17 @@ tNodoArbol ** mayorNodoArbolBinBusq(const tArbolBinBusq *p);
 tNodoArbol ** menorNodoArbolBinBusq(const tArbolBinBusq *p);
 int eliminarRaizArbolBinBusq(tArbolBinBusq *p);
 
-void crearArbolBinBusq(tArbolBinBusq *p) {
+void crearArbolBinBusq(tArbolBinBusq *p)
+{
     *p = NULL;
 }
 
-int insertarArbolBinBusq(tArbolBinBusq *p, const void *d, unsigned tam, int (*cmp)(const void*, const void*)) {
+int insertarArbolBinBusq(tArbolBinBusq *p, const void *d, unsigned tam, int (*cmp)(const void*, const void*))
+{
     tNodoArbol *nue;
     int rc;
-    while (*p) {
+    while (*p)
+    {
         if ((rc = cmp(d, (*p)->info)) < 0) p = &(*p)->izq;
         else if (rc > 0) p = &(*p)->der;
         else return CLA_DUP;
@@ -28,20 +31,24 @@ int insertarArbolBinBusq(tArbolBinBusq *p, const void *d, unsigned tam, int (*cm
     return TODO_BIEN;
 }
 
-int buscarElemArbolBinBusq(const tArbolBinBusq *p, void *d, unsigned tam, int (*cmp)(const void*, const void*)) {
+int buscarElemArbolBinBusq(const tArbolBinBusq *p, void *d, unsigned tam, int (*cmp)(const void*, const void*))
+{
     if (!(p = buscarNodoArbolBinBusq(p, d, cmp))) return 0;
     memcpy(d, (*p)->info, MINIMO(tam, (*p)->tamInfo));
     return 1;
 }
 
-int eliminarElemArbolBinBusq(tArbolBinBusq *p, void *d, unsigned tam, int (*cmp)(const void*, const void*)) {
+int eliminarElemArbolBinBusq(tArbolBinBusq *p, void *d, unsigned tam, int (*cmp)(const void*, const void*))
+{
     if (!(p = buscarNodoArbolBinBusq(p, d, cmp))) return 0;
     memcpy(d, (*p)->info, MINIMO(tam, (*p)->tamInfo));
     return eliminarRaizArbolBinBusq(p);
 }
 
-void eliminarArbol(tArbolBinBusq *pa) {
-    if (*pa) {
+void eliminarArbol(tArbolBinBusq *pa)
+{
+    if (*pa)
+    {
         eliminarArbol(&(*pa)->izq);
         eliminarArbol(&(*pa)->der);
         free((*pa)->info);
@@ -50,7 +57,8 @@ void eliminarArbol(tArbolBinBusq *pa) {
     }
 }
 
-unsigned alturaArbolBin(const tArbolBinBusq *p) {
+unsigned alturaArbolBin(const tArbolBinBusq *p)
+{
     int hi, hd;
     if (!*p) return 0;
     hi = alturaArbolBin(&(*p)->izq);
@@ -58,9 +66,11 @@ unsigned alturaArbolBin(const tArbolBinBusq *p) {
     return (hi > hd ? hi : hd) + 1;
 }
 
-tNodoArbol ** buscarNodoArbolBinBusq(const tArbolBinBusq *p, const void *d, int (*cmp)(const void*, const void*)) {
+tNodoArbol ** buscarNodoArbolBinBusq(const tArbolBinBusq *p, const void *d, int (*cmp)(const void*, const void*))
+{
     int rc;
-    while (*p && (rc = cmp(d, (*p)->info))) {
+    while (*p && (rc = cmp(d, (*p)->info)))
+    {
         if (rc < 0) p = &(*p)->izq;
         else p = &(*p)->der;
     }
@@ -68,23 +78,27 @@ tNodoArbol ** buscarNodoArbolBinBusq(const tArbolBinBusq *p, const void *d, int 
     return (tNodoArbol **)p;
 }
 
-tNodoArbol ** mayorNodoArbolBinBusq(const tArbolBinBusq *p) {
+tNodoArbol ** mayorNodoArbolBinBusq(const tArbolBinBusq *p)
+{
     if (!*p) return NULL;
     while ((*p)->der) p = &(*p)->der;
     return (tNodoArbol **)p;
 }
 
-tNodoArbol ** menorNodoArbolBinBusq(const tArbolBinBusq *p) {
+tNodoArbol ** menorNodoArbolBinBusq(const tArbolBinBusq *p)
+{
     if (!*p) return NULL;
     while ((*p)->izq) p = &(*p)->izq;
     return (tNodoArbol **)p;
 }
 
-int eliminarRaizArbolBinBusq(tArbolBinBusq *p) {
+int eliminarRaizArbolBinBusq(tArbolBinBusq *p)
+{
     tNodoArbol **remp, *elim;
     if (!*p) return 0;
     free((*p)->info);
-    if (!(*p)->izq && !(*p)->der) {
+    if (!(*p)->izq && !(*p)->der)
+    {
         free(*p);
         *p = NULL;
         return 1;
