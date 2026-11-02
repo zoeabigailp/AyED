@@ -15,6 +15,27 @@
 
 #define SEMILLA_DEFECTO 42
 
+static unsigned long leerNumero(const char *mensaje, unsigned long defecto);
+static void mostrarMenu(void);
+static void opcionGenerar(const char *tipo, int pideTamPool);
+static void opcionSimular(void);
+static void ejecutarOpcion(int op);
+
+int main(void)
+{
+    int op;
+
+    do
+    {
+        mostrarMenu();
+        op = (int)leerNumero("Opcion", OP_SALIR);   /* sin entrada: sale */
+        ejecutarOpcion(op);
+    }
+    while(op != OP_SALIR);
+
+    return 0;
+}
+
 /* Lee un numero; si la linea esta vacia (o no hay entrada) devuelve defecto */
 static unsigned long leerNumero(const char *mensaje, unsigned long defecto)
 {
@@ -95,19 +116,4 @@ static void ejecutarOpcion(int op)
         opcionSimular();
     else if(op != OP_SALIR)
         printf("Opcion invalida.\n");
-}
-
-int main(void)
-{
-    int op;
-
-    do
-    {
-        mostrarMenu();
-        op = (int)leerNumero("Opcion", OP_SALIR);   /* sin entrada: sale */
-        ejecutarOpcion(op);
-    }
-    while(op != OP_SALIR);
-
-    return 0;
 }
